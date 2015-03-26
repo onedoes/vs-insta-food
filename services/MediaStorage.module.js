@@ -32,7 +32,7 @@ function MediaStorage($http, $rootScope) {
   function _updateTrendingList(snapshot) {
     var _this2 = this;
 
-    var items = _(snapshot.val()).sortBy("score").reverse().value();
+    var items = _(snapshot.val()).sortBy("score").reverse().take(MAX_MEDIA_COUNT).value();
 
     $http.post("/cache/medias", items);
 

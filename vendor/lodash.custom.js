@@ -1,7 +1,7 @@
 /**
  * @license
  * lodash 3.5.0 (Custom Build) <https://lodash.com/>
- * Build: `lodash modern include="debounce,chain,sortBy,reverse,map,transform,keys,shuffle,reduce,uniq,filter,assign,partial,includes,intersection" --output vendor/lodash.custom.js`
+ * Build: `lodash modern include="debounce,chain,sortBy,reverse,map,transform,keys,shuffle,reduce,uniq,filter,assign,partial,includes,intersection,first,indexBy,toArray,take" --output vendor/lodash.custom.js`
  * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
  * Based on Underscore.js 1.8.2 <http://underscorejs.org/LICENSE>
  * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -1795,6 +1795,38 @@
   }
 
   /**
+   * Creates a function that aggregates a collection, creating an accumulator
+   * object composed from the results of running each element in the collection
+   * through an iteratee.
+   *
+   * @private
+   * @param {Function} setter The function to set keys and values of the accumulator object.
+   * @param {Function} [initializer] The function to initialize the accumulator object.
+   * @returns {Function} Returns the new aggregator function.
+   */
+  function createAggregator(setter, initializer) {
+    return function(collection, iteratee, thisArg) {
+      var result = initializer ? initializer() : {};
+      iteratee = getCallback(iteratee, thisArg, 3);
+
+      if (isArray(collection)) {
+        var index = -1,
+            length = collection.length;
+
+        while (++index < length) {
+          var value = collection[index];
+          setter(result, value, iteratee(value, index, collection), collection);
+        }
+      } else {
+        baseEach(collection, function(value, key, collection) {
+          setter(result, value, iteratee(value, key, collection), collection);
+        });
+      }
+      return result;
+    };
+  }
+
+  /**
    * Creates a function that assigns properties of source object(s) to a given
    * destination object.
    *
@@ -2673,6 +2705,27 @@
   /*------------------------------------------------------------------------*/
 
   /**
+   * Gets the first element of `array`.
+   *
+   * @static
+   * @memberOf _
+   * @alias head
+   * @category Array
+   * @param {Array} array The array to query.
+   * @returns {*} Returns the first element of `array`.
+   * @example
+   *
+   * _.first([1, 2, 3]);
+   * // => 1
+   *
+   * _.first([]);
+   * // => undefined
+   */
+  function first(array) {
+    return array ? array[0] : undefined;
+  }
+
+  /**
    * Gets the index at which the first occurrence of `value` is found in `array`
    * using `SameValueZero` for equality comparisons. If `fromIndex` is negative,
    * it is used as the offset from the end of `array`. If `array` is sorted
@@ -2799,6 +2852,41 @@
   function last(array) {
     var length = array ? array.length : 0;
     return length ? array[length - 1] : undefined;
+  }
+
+  /**
+   * Creates a slice of `array` with `n` elements taken from the beginning.
+   *
+   * @static
+   * @memberOf _
+   * @category Array
+   * @param {Array} array The array to query.
+   * @param {number} [n=1] The number of elements to take.
+   * @param- {Object} [guard] Enables use as a callback for functions like `_.map`.
+   * @returns {Array} Returns the slice of `array`.
+   * @example
+   *
+   * _.take([1, 2, 3]);
+   * // => [1]
+   *
+   * _.take([1, 2, 3], 2);
+   * // => [1, 2]
+   *
+   * _.take([1, 2, 3], 5);
+   * // => [1, 2, 3]
+   *
+   * _.take([1, 2, 3], 0);
+   * // => []
+   */
+  function take(array, n, guard) {
+    var length = array ? array.length : 0;
+    if (!length) {
+      return [];
+    }
+    if (guard ? isIterateeCall(array, n, guard) : n == null) {
+      n = 1;
+    }
+    return baseSlice(array, 0, n < 0 ? 0 : n);
   }
 
   /**
@@ -3230,6 +3318,56 @@
       ? (fromIndex < length && collection.indexOf(target, fromIndex) > -1)
       : (getIndexOf(collection, target, fromIndex) > -1);
   }
+
+  /**
+   * Creates an object composed of keys generated from the results of running
+   * each element of `collection` through `iteratee`. The corresponding value
+   * of each key is the last element responsible for generating the key. The
+   * iteratee function is bound to `thisArg` and invoked with three arguments;
+   * (value, index|key, collection).
+   *
+   * If a property name is provided for `predicate` the created `_.property`
+   * style callback returns the property value of the given element.
+   *
+   * If a value is also provided for `thisArg` the created `_.matchesProperty`
+   * style callback returns `true` for elements that have a matching property
+   * value, else `false`.
+   *
+   * If an object is provided for `predicate` the created `_.matches` style
+   * callback returns `true` for elements that have the properties of the given
+   * object, else `false`.
+   *
+   * @static
+   * @memberOf _
+   * @category Collection
+   * @param {Array|Object|string} collection The collection to iterate over.
+   * @param {Function|Object|string} [iteratee=_.identity] The function invoked
+   *  per iteration.
+   * @param {*} [thisArg] The `this` binding of `iteratee`.
+   * @returns {Object} Returns the composed aggregate object.
+   * @example
+   *
+   * var keyData = [
+   *   { 'dir': 'left', 'code': 97 },
+   *   { 'dir': 'right', 'code': 100 }
+   * ];
+   *
+   * _.indexBy(keyData, 'dir');
+   * // => { 'left': { 'dir': 'left', 'code': 97 }, 'right': { 'dir': 'right', 'code': 100 } }
+   *
+   * _.indexBy(keyData, function(object) {
+   *   return String.fromCharCode(object.code);
+   * });
+   * // => { 'a': { 'dir': 'left', 'code': 97 }, 'd': { 'dir': 'right', 'code': 100 } }
+   *
+   * _.indexBy(keyData, function(object) {
+   *   return this.fromCharCode(object.code);
+   * }, String);
+   * // => { 'a': { 'dir': 'left', 'code': 97 }, 'd': { 'dir': 'right', 'code': 100 } }
+   */
+  var indexBy = createAggregator(function(result, value, key) {
+    result[key] = value;
+  });
 
   /**
    * Creates an array of values by running each element in `collection` through
@@ -3831,6 +3969,32 @@
     return (isObjectLike(value) && isLength(value.length) && typedArrayTags[objToString.call(value)]) || false;
   }
 
+  /**
+   * Converts `value` to an array.
+   *
+   * @static
+   * @memberOf _
+   * @category Lang
+   * @param {*} value The value to convert.
+   * @returns {Array} Returns the converted array.
+   * @example
+   *
+   * (function() {
+   *   return _.toArray(arguments).slice(1);
+   * }(1, 2, 3));
+   * // => [2, 3]
+   */
+  function toArray(value) {
+    var length = value ? value.length : 0;
+    if (!isLength(length)) {
+      return values(value);
+    }
+    if (!length) {
+      return [];
+    }
+    return arrayCopy(value);
+  }
+
   /*------------------------------------------------------------------------*/
 
   /**
@@ -4306,6 +4470,7 @@
   lodash.constant = constant;
   lodash.debounce = debounce;
   lodash.filter = filter;
+  lodash.indexBy = indexBy;
   lodash.intersection = intersection;
   lodash.keys = keys;
   lodash.keysIn = keysIn;
@@ -4315,8 +4480,10 @@
   lodash.partial = partial;
   lodash.shuffle = shuffle;
   lodash.sortBy = sortBy;
+  lodash.take = take;
   lodash.tap = tap;
   lodash.thru = thru;
+  lodash.toArray = toArray;
   lodash.transform = transform;
   lodash.uniq = uniq;
   lodash.values = values;
@@ -4335,6 +4502,7 @@
 
   // Add functions that return unwrapped values when chaining.
   lodash.escapeRegExp = escapeRegExp;
+  lodash.first = first;
   lodash.identity = identity;
   lodash.includes = includes;
   lodash.indexOf = indexOf;
@@ -4353,6 +4521,7 @@
   // Add aliases.
   lodash.contains = includes;
   lodash.foldl = reduce;
+  lodash.head = first;
   lodash.include = includes;
   lodash.inject = reduce;
 

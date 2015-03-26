@@ -48,9 +48,7 @@ function ImagesToCompareStorage($http, mediaStorage) {
   function resetWith(pictures) {
     this.currentPairIndex = 0;
 
-    this.storage = _.transform(pictures, function (res, pic) {
-      res[pic.id] = pic;
-    }, {});
+    this.storage = _.indexBy(pictures, "id");
 
     var lastId = undefined;
     this.comparingPairs = _(this.storage).keys().shuffle().reduce(function (pairs, id) {
@@ -67,8 +65,8 @@ function ImagesToCompareStorage($http, mediaStorage) {
   }
 
   function initNewStore() {
-    return get50Pictures.call(this).then(function (pictures) {
-      return pictures.concat(mediaStorage.items);
+    return get50Pictures.call(this, mediaStorage.items).then(function (pictures) {
+      return pictures;
     }).then(resetWith.bind(this));
   }
 
