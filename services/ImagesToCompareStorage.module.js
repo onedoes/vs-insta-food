@@ -41,6 +41,12 @@ function ImagesToCompareStorage($http, mediaStorage) {
 
   ////
 
+  function initNewStore() {
+    return get50Pictures.call(this, mediaStorage.items).then(function (pictures) {
+      return pictures;
+    }).then(resetWith.bind(this));
+  }
+
   function nextPair() {
     return this.comparingPairs[this.currentPairIndex++] || [];
   }
@@ -62,12 +68,6 @@ function ImagesToCompareStorage($http, mediaStorage) {
       lastId = null;
       return pairs;
     }, []);
-  }
-
-  function initNewStore() {
-    return get50Pictures.call(this, mediaStorage.items).then(function (pictures) {
-      return pictures;
-    }).then(resetWith.bind(this));
   }
 
   function get50Pictures() {

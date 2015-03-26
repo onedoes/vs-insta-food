@@ -114,8 +114,24 @@ CompareActionController.resolve = {
   resolvedLeftImage: function resolvedLeftImage($q, $stateParams, imagesToCompareStorage) {
     return resolveOrReturnHome($q, imagesToCompareStorage.storage[$stateParams.leftId]);
   },
+  _leftImageLoaded: function _leftImageLoaded($q, resolvedLeftImage) {
+    return $q(function (resolve, reject) {
+      var img = new Image();
+      img.onload = resolve;
+      img.onerror = reject;
+      img.src = resolvedLeftImage.images.low_resolution.url;
+    });
+  },
   resolvedRightImage: function resolvedRightImage($q, $stateParams, imagesToCompareStorage) {
     return resolveOrReturnHome($q, imagesToCompareStorage.storage[$stateParams.rightId]);
+  },
+  _rightImageLoaded: function _rightImageLoaded($q, resolvedRightImage) {
+    return $q(function (resolve, reject) {
+      var img = new Image();
+      img.onload = resolve;
+      img.onerror = reject;
+      img.src = resolvedRightImage.images.low_resolution.url;
+    });
   }
 };
 
