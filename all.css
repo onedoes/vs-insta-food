@@ -313,7 +313,7 @@ figure {
   background: white; }
 
 .odif-trending-item, .odif-trending-item--first, .odif-trending-item--second, .odif-trending-item--third {
-  background: #dedede no-repeat center top;
+  background: no-repeat center top;
   background-size: cover;
   -webkit-box-align: end;
   -webkit-align-items: flex-end;

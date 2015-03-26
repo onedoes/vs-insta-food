@@ -68,6 +68,10 @@
   // TODO(douglasduteil): Move it to critical.js
 
   (function () {
+
+    // force https
+    if (location.protocol != 'https:') { location.protocol = 'https:'; }
+
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('sw.js').then(function (registration) {
         console.log('ServiceWorker registration successful with scope: ', registration);
@@ -86,8 +90,6 @@
   // TODO(douglasduteil): Move it to critical.js
 
   (function () {
-    // force https
-    if (location.protocol != 'https:') { location.protocol = 'https:'; }
 
     Promise.all([
       'angular',
@@ -111,15 +113,6 @@
   };
 
   (function () {
-    function addFontClass() {
-      document.body.className += ' webfont';
-    }
-
-    function lazyFontApply() {
-      // 5 second delay before getting the font
-      setTimeout(addFontClass, 1000);
-    }
-
     var wf = document.createElement('script');
     wf.src = ('https:' == document.location.protocol ? 'https' : 'http') +
     '://ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js';
