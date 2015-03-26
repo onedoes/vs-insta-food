@@ -1,0 +1,1 @@
+module.exports = require("github:necolas/normalize.css@3.0.2/normalize.css!");
