@@ -1,0 +1,70 @@
+<!--
+==  trending.html
+==
+==  The trending view
+==  @state trending
+==  @controller TrendingController as trendingCtrl
+================================================== -->
+
+<section class="odif-trending" ng-init="trendingCtrl.init()">
+
+
+  <!--
+  --  The header
+  -->
+  <header class="odif-trending-header">
+    <div class="container">
+      <h1 class="odif-trending-header__title"> Trending </h1>
+    </div>
+  </header>
+
+
+  <div class="container">
+
+    <!--
+    --  The action button
+    -->
+    <button
+      class="odif-trending-action-button"
+      ng-click="trendingCtrl.gotTocompare()"
+      >
+      <i class="fa fa-sort"></i>
+    </button>
+
+
+    <!--
+    --  The main trending list
+    -->
+    <article class="odif-trending-list">
+      <a ng-repeat="item in trendingCtrl.mediaStorage.items track by item.id"
+        ng-class="trendingCtrl.getItemClassRank($index, [
+                    'odif-trending-item--first',
+                    'odif-trending-item--second',
+                    'odif-trending-item--third',
+                    'odif-trending-item'
+                ])"
+        ng-href="{{:: item.link }}"
+        ng-style="::{ backgroundImage: 'url(' + item.images.low_resolution.url + ')' }">
+
+        <!--
+        -- The caption inside the item
+        -->
+                <span class="odif-trending-item__caption">
+
+                    <i class="fa fa-spoon"></i>{{ item.score }}
+                </span>
+      </a>
+    </article>
+  </div>
+
+
+  <!--
+  --  The footer
+  -->
+  <footer class="odif-trending-footer">
+    <div class="container">
+      version {{:: $root.version }}
+    </div>
+  </footer>
+
+</section>

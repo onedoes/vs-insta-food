@@ -1,0 +1,80 @@
+<!--
+-- compareAction.html
+-- @contoller CompareActionController as compareActionCtrl
+-->
+<div class="odif-compare">
+
+  <!--
+  --  The navbar
+  -->
+  <nav class="odif-compare-navbar">
+    <div class="odif-compare-navbar__container">
+      <a class="odif-compare-navbar__button" ui-sref="trending">
+        <i class="fa fa-arrow-left"></i> Back
+      </a>
+    </div>
+  </nav>
+
+
+  <div class="odif-compare__container">
+
+    <!--
+    --  The figures
+    -- TODO(douglasduteil): [[SMELLY CODE] Clean this plz
+    -->
+    <div class="odif-compare-ring">
+
+      <div class="odif-compare-ring__figure-container">
+        <figure
+          class="odif-compare-ring__figure"
+          ng-style="::{ backgroundImage: 'url(' + compareActionCtrl.leftImage.images.low_resolution.url + ')' }"
+          >
+          <figcaption class="odif-compare-ring__figure-caption"
+            ng-class="{
+                        'odif-compare-ring__figure-caption--negative' : 50 - compareActionCtrl.score < 0,
+                        'odif-compare-ring__figure-caption--positive' : 50 - compareActionCtrl.score > 0
+                        }"
+            >
+            {{ 50 - compareActionCtrl.score }}
+          </figcaption>
+        </figure>
+        <figure
+          class="odif-compare-ring__figure"
+          ng-style="::{ backgroundImage: 'url(' + compareActionCtrl.rightImage.images.low_resolution.url + ')' }"
+          >
+          <figcaption class="odif-compare-ring__figure-caption"
+            ng-class="{
+                        'odif-compare-ring__figure-caption--negative' : compareActionCtrl.score - 50 < 0,
+                        'odif-compare-ring__figure-caption--positive' : compareActionCtrl.score - 50 > 0
+                        }"
+            >
+            {{ compareActionCtrl.score - 50 }}
+          </figcaption>
+        </figure>
+      </div>
+
+      <!--
+      --  The referee
+      -->
+
+      <input type="range"
+        class="odif-compare-ring__referee"
+        ng-model="compareActionCtrl.score">
+
+      <!--
+      --  The time decompte
+      -->
+      <p class="odif-compare-decompte">You have <span>{{ compareActionCtrl.decompte }}</span>
+        seconds left to voter</p>
+
+    </div>
+
+  </div>
+
+  <!--
+  --  The next button
+  -->
+  <button class="odif-compare-next-button"
+    ng-click="compareActionCtrl.nextComparison()">NEXT
+  </button>
+</div>
