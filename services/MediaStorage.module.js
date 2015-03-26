@@ -22,7 +22,7 @@ function MediaStorage($http, $rootScope) {
   this.items = [];
 
   // Fresh
-  MEDIAS_REF.orderByChild("score").limitToFirst(MAX_MEDIA_COUNT).on("value", _.debounce(_updateTrendingList, 1000), this);
+  MEDIAS_REF.orderByChild("score").on("value", _.debounce(_updateTrendingList, 1000), this);
 
   // Warm
   $http.get("/cache/medias").then(function (res) {
