@@ -1,0 +1,20 @@
+//
+//== All
+//------------------------------------------------------------------------------
+// IMPORT COMMON FUNCTIONS
+@import "scss/functions";
+// IMPORT COMMON VARIABLES
+@import "scss/variables";
+// IMPORT MIXINS
+@import "scss/helpers";
+// IMPORT CUSTOM NORM
+@import "scss/nomalize";
+@import "scss/loader";
+@import "scss/grid";
+// IMPORT COMMON PLACEHOLDER
+@import "scss/placeholder";
+// IMPORT COMMON STYLES
+@import "scss/splashscreen";
+// IMPORT MODULE STYLES
+@import "routes/compare/compare";
+@import "routes/trending/trending";

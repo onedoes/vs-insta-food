@@ -1,0 +1,54 @@
+//
+//== Grid
+//------------------------------------------------------------------------------
+
+//== Container
+
+.container {
+  @extend %box-sizing;
+  margin-right: auto;
+  margin-left: auto;
+  padding-right: $outer-margin;
+  padding-left: $outer-margin;
+
+  @media #{$sm-viewport} {
+    position: relative;
+    width: px-to-rem($screen-sm-min) - ($outer-margin * 2);
+  }
+
+  @media #{$md-viewport} {
+    width: px-to-rem($screen-md-min) - ($outer-margin * 2);
+  }
+
+  @media #{$lg-viewport} {
+    width: px-to-rem($screen-lg-min) - ($outer-margin * 2);
+  }
+}
+
+// Flex columns placeholder
+
+@mixin flex-col($fraction: 1) {
+  flex-basis: 100% * $fraction;
+  max-width: 100% * $fraction;
+}
+
+%flex-row {
+  @extend %box-sizing;
+  display: flex;
+  flex: 0 1 auto;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+%flex-col {
+  @extend %box-sizing;
+  display: flex;
+  flex: 0 1 auto;
+  flex-direction: column;
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+
+%flex-col-12 {
+  @include flex-col;
+}

@@ -1,0 +1,25 @@
+//
+//== Placeholders
+//------------------------------------------------------------------------------
+
+//== Fill
+
+%fill {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+//== Box sizing
+
+%box-sizing {
+  box-sizing: border-box;
+}
+
+//== Virgin buttons
+
+%virgin-button {
+  @include virgin-button;
+}

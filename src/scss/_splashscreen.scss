@@ -1,0 +1,41 @@
+//
+//== Splash screen
+//------------------------------------------------------------------------------
+
+%odif-splashscreen {
+  @extend %fill;
+  background: no-repeat center bottom;
+  background-size: contain;
+  transform: translateZ(0);
+
+  &__loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.odif-splashscreen {
+
+  &--intro {
+    @extend %odif-splashscreen;
+    background-color: $mirage;
+    background-image: url('images/splashscreen.jpg');
+
+    &__loader-container {
+      @extend %odif-splashscreen__loader;
+    }
+  }
+
+  &--wodefd {
+    @extend %odif-splashscreen;
+    background-color: $coral-tree;
+    background-position: center center;
+    background-image: url('images/wodefd.jpg');
+
+    &__loader-container {
+      @extend %odif-splashscreen__loader;
+    }
+  }
+}

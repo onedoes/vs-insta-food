@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <meta charset="utf-8">
+
+  <title>OneDoes Vs InstaFood</title>
+  <meta name="description" content="What One Does for dinner ?" />
+
+  <meta name="viewport"
+    content="width=device-width, minimum-scale=1.0, minimal-ui">
+
+  <link rel="apple-touch-icon" sizes="57x57"
+    href="icons/apple-touch-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60"
+    href="icons/apple-touch-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72"
+    href="icons/apple-touch-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76"
+    href="icons/apple-touch-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114"
+    href="icons/apple-touch-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120"
+    href="icons/apple-touch-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144"
+    href="icons/apple-touch-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152"
+    href="icons/apple-touch-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180"
+    href="icons/apple-touch-icon-180x180.png">
+  <link rel="icon" type="image/png" href="icons/favicon-32x32.png"
+    sizes="32x32">
+  <link rel="icon" type="image/png" href="icons/android-chrome-192x192.png"
+    sizes="192x192">
+  <link rel="icon" type="image/png" href="icons/favicon-96x96.png"
+    sizes="96x96">
+  <link rel="icon" type="image/png" href="icons/favicon-16x16.png"
+    sizes="16x16">
+  <link rel="manifest" href="icons/manifest.json">
+  <link rel="shortcut icon" href="icons/favicon.ico">
+  <meta name="msapplication-TileColor" content="#a3666e">
+  <meta name="msapplication-TileImage" content="icons/mstile-144x144.png">
+  <meta name="msapplication-config" content="icons/browserconfig.xml">
+  <meta name="theme-color" content="#a3666e">
+
+
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="application-name" content="OneDoes Vs InstaFood">
+
+  <link rel="stylesheet"
+    href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link rel="stylesheet"
+    href="jspm_packages/github/necolas/normalize.css@3.0.2/normalize.css"
+    type="text/css"/>
+  <link rel="stylesheet" href="all.css" type="text/css"/>
+</head>
+
+<body>
+
+<ui-view class="odif-app-body">
+  <section class="odif-splashscreen--intro">
+    <div class="odif-splashscreen--intro__loader-container">
+      <div class="loader"></div>
+    </div>
+  </section>
+</ui-view>
+
+<script>
+  // TODO(douglasduteil): Move it to critical.js
+
+  (function () {
+
+    // force https
+    if (location.protocol != 'https:') { location.protocol = 'https:'; }
+
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js').then(function (registration) {
+        console.log('ServiceWorker registration successful with scope: ', registration);
+      }).catch(function (err) {
+        console.log('ServiceWorker registration failed: ', err);
+      });
+    }
+  }());
+</script>
+
+<script src="node_modules/babel-core/browser-polyfill.js"></script>
+<script src="jspm_packages/system.js"></script>
+<script src="jspm.config.js"></script>
+
+<script>
+  // TODO(douglasduteil): Move it to critical.js
+
+  (function () {
+
+    Promise.all([
+      'angular',
+      'OdifApp'
+    ].map(System.import.bind(System)))
+      .then(function bootstrapTheApp(_result) {
+        var ng = _result[0];
+        var OdifApp = _result[1].default;
+        ng.bootstrap(document, [OdifApp.name]);
+      });
+
+  }());
+</script>
+<script async defer>
+  // TODO(douglasduteil): Move it to critical.js
+
+  (function () {
+
+    window.WebFontConfig = {
+      google: {
+        families: ['Ubuntu:300,400,600']
+      }
+    };
+
+    var wf = document.createElement('script');
+    wf.src = (document.location.protocol === 'https:' ? 'https' : 'http') +
+    '://ajax.googleapis.com/ajax/libs/webfont/1.5.6/webfont.js';
+    wf.type = 'text/javascript';
+    wf.async = 'true';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(wf, s);
+  })();
+
+</script>
+
+</body>
+
+</html>

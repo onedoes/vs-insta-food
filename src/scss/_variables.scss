@@ -1,0 +1,26 @@
+//
+//== Variables
+//------------------------------------------------------------------------------
+
+//== Colors
+$less-light-gray: hsl(0, 0%, 87%);
+$light-gray: hsl(0, 0%, 93%);
+$mirage: hsl(250, 34%, 17%);
+$coral-tree: hsl(352, 25%, 52%);
+$apricot: hsl(358, 76%, 73%);
+
+//== Grid
+$outer-margin: 1rem;
+
+$screen-xs-min: 480px;
+$screen-sm-min: 768px;
+$screen-md-min: 970px;
+$screen-lg-min: 1170px;
+
+$sm-viewport: "only screen and (min-width: #{$screen-sm-min})";
+$md-viewport: "only screen and (min-width: #{$screen-md-min})";
+$lg-viewport: "only screen and (min-width: #{$screen-lg-min})";
+
+//== Trending
+
+$trending-item--height: 10rem;

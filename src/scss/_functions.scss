@@ -1,0 +1,18 @@
+//
+//== Util functions
+//------------------------------------------------------------------------------
+
+// Used to convert px <-> rem
+@function strip-units($number) {
+  @return $number / ($number * 0 + 1);
+}
+
+// Convert rem to px
+@function rem-to-px($rem, $base-font-size: 16px) {
+  @return strip-units($rem) * $base-font-size;
+}
+
+// Convert px to rem
+@function px-to-rem($px, $base-font-size: 16) {
+  @return strip-units($px) / $base-font-size * 1rem;
+}

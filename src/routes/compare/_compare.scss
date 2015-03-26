@@ -1,0 +1,140 @@
+//
+//== Compare
+//------------------------------------------------------------------------------
+
+.odif-compare {
+  @extend %fill;
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+
+  // odif-compare__container
+  &__container {
+    @extend .container;
+    // HACK 'cause it's flex !
+    margin: 0;
+
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+
+    @media #{$sm-viewport} {
+      // HACK back on old behav
+      margin-right: auto;
+      margin-left: auto;
+    }
+  }
+}
+
+.odif-compare-navbar {
+
+  overflow: hidden;
+  background-color: $coral-tree;
+  color: white;
+  margin-bottom: 1rem;
+  box-shadow: 0 6px 20px 0 hsla(0, 0%, 0%, 0.19);
+
+  // odif-compare-navbar__container
+  &__container {
+    @extend .container;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 4em;
+  }
+
+  // odif-compare-navbar__button
+  &__button {
+    @include virgin-a;
+
+    display: flex;
+    flex: 1;
+    align-items: center;
+    align-self: flex-start;
+
+    padding: 0 1rem;
+
+    & > .fa {
+      margin-right: .5rem;
+    }
+  }
+}
+
+.odif-compare-ring {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  flex-wrap: wrap;
+  padding: 1rem;
+  background: hsl(0, 100%, 100%);
+
+  // odif-compare-ring__figure-container
+  &__figure-container {
+    display: flex;
+    border: 1px solid $less-light-gray;
+    flex: 1;
+  }
+
+  // odif-compare-ring__figure
+  &__figure {
+    display: flex;
+    flex: 1;
+    background: $light-gray no-repeat center center;
+    background-size: contain;
+
+    &:first-child {
+      border-right: 1px solid $less-light-gray;
+    }
+  }
+
+  // odif-compare-ring__figure-caption
+  &__figure-caption {
+    flex: 1;
+    align-self: flex-end;
+    border-top: 1px solid $less-light-gray;
+    background: hsl(0, 100%, 100%);
+    text-align: center;
+    height: 2rem;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+
+    // odif-compare-ring__figure-caption--negative
+    &--negative {
+      color: red;
+    }
+
+    // odif-compare-ring__figure-caption--positive
+    &--positive {
+      color: green;
+    }
+
+    &:first-child {
+      border-right: 1px solid $less-light-gray;
+    }
+  }
+
+  // odif-compare-ring__referee
+  &__referee {
+    margin: 2rem 0;
+  }
+}
+
+.odif-compare-next-button {
+  @include virgin-button;
+  height: 4rem;
+  background: $apricot;
+  color: white;
+  margin-top: 1.1rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.odif-compare-decompte {
+  text-align: right;
+  font-size: .8rem;
+}

@@ -1,0 +1,28 @@
+//
+//== Helpers
+//------------------------------------------------------------------------------
+
+// Reset over the default button normalized style
+@mixin virgin-button {
+  display: inline-block;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  background-image: none;
+  border: 0;
+
+  // appareance and autoprefixer : https://github.com/postcss/autoprefixer#why-doesnt-autoprefixer-support-appearance
+  -wekbit-appereance: initial;
+  -moz-appearance: initial;
+}
+
+@mixin virgin-a {
+  color: inherit;
+  text-decoration: none;
+}
