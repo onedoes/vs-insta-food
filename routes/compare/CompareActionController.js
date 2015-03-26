@@ -14,7 +14,7 @@ var MEDIAS_REF = _servicesConstants.MEDIAS_REF;
 var INITIAL_SCORE_VALUE = Math.floor(MAX_COMPARE_SCORE / 2);
 
 function CompareActionController($q, $scope, $state, imagesToCompareStorage, resolvedLeftImage, resolvedRightImage) {
-
+  this.hasVoted = false;
   this.leftImage = resolvedLeftImage;
   this.rightImage = resolvedRightImage;
   this.decompte = MAX_COMPARE_ACION_TIME;
@@ -25,6 +25,12 @@ function CompareActionController($q, $scope, $state, imagesToCompareStorage, res
   ////
 
   function nextComparison() {
+    if (this.hasVoted) {
+      return;
+    }
+
+    this.hasVoted = true;
+
     saveScore([this.leftImage, this.rightImage], this.score);
 
     var _imagesToCompareStorage$nextPair = imagesToCompareStorage.nextPair();

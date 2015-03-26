@@ -21,7 +21,7 @@ var INSTAGRAM_LIMIT_COUNT = MAX_MEDIA_COUNT;
 
 var INSTAGRAM_URL = "https://api.instagram.com/v1/" + INSTAGRAM_ENDPOINT + "?client_id=" + INSTAGRAM_CLIENT_ID + "&count=" + INSTAGRAM_LIMIT_COUNT + "&callback=JSON_CALLBACK";
 
-var TRASH_TAGS = ["1000likes", "abs", "beautiful", "cute", "fashion", "fit", "fitness", "fitnessaddict", "followback", "followforfollow", "followme", "gym", "iloveher", "imissyou", "instacool", "instagood", "instalike", "instafollow", "like4like", "likeforlike", "likemyphoto", "mustfollow", "snapchat", "tags4tags", "tagsforlikes", "teamfollowback", "vscocam", "vscogram"];
+var TRASH_TAGS = ["1000likes", "abs", "beautiful", "bug", "cute", "fashion", "fit", "fitness", "fitnessaddict", "followback", "followforfollow", "followme", "gym", "iloveher", "imissyou", "instacool", "instagood", "instalike", "instafollow", "like4like", "likeforlike", "likemyphoto", "lover", "mustfollow", "snapchat", "tags4tags", "tagsforlikes", "teamfollowback", "vscocam", "vscogram"];
 
 ////
 

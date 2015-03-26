@@ -75,6 +75,6 @@
   --  The next button
   -->
   <button class="odif-compare-next-button"
-    ng-click="compareActionCtrl.nextComparison()">NEXT
+    ng-click="compareActionCtrl.nextComparison()">{{ compareActionCtrl.hasVoted ? 'WAIT...' : 'NEXT !'}}
   </button>
 </div>
