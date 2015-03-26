@@ -12,7 +12,7 @@ var FIREBASE_BASE_URL = "https://onedoes-vs-instafood.firebaseio.com/";
 exports.FIREBASE_BASE_URL = FIREBASE_BASE_URL;
 var MEDIAS_REF = new Firebase("" + FIREBASE_BASE_URL + "/medias");
 exports.MEDIAS_REF = MEDIAS_REF;
-var MAX_MEDIA_COUNT = 10;
+var MAX_MEDIA_COUNT = 11;
 
 exports.MAX_MEDIA_COUNT = MAX_MEDIA_COUNT;
 var MAX_COMPARE_ACION_TIME = 5;
