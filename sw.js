@@ -47,6 +47,7 @@ self.onactivate = function (event) {
       });
     });
   }));
+  //
 };
 
 self.onfetch = function (event) {
@@ -128,4 +129,3 @@ function firebaseDataResponse(request) {
 function normalize(url) {
   return BASE_URL + url;
 }
-//

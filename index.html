@@ -106,19 +106,19 @@
 <script async defer>
   // TODO(douglasduteil): Move it to critical.js
 
-  WebFontConfig = {
-    google: {
-      families: ['Lato:300']
-    }
-  };
-
   (function () {
+
+    window.WebFontConfig = {
+      google: {
+        families: ['Lato:300']
+      }
+    };
+    
     var wf = document.createElement('script');
-    wf.src = ('https:' == document.location.protocol ? 'https' : 'http') +
-    '://ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js';
+    wf.src = (document.location.protocol === 'https:' ? 'https' : 'http') +
+    '://ajax.googleapis.com/ajax/libs/webfont/1.5.6/webfont.js';
     wf.type = 'text/javascript';
     wf.async = 'true';
-    wf.onload = lazyFontApply;
     var s = document.getElementsByTagName('script')[0];
     s.parentNode.insertBefore(wf, s);
   })();
