@@ -97,7 +97,7 @@
     ].map(System.import.bind(System)))
       .then(function bootstrapTheApp(_result) {
         var ng = _result[0];
-        var OdifApp = _result[1];
+        var OdifApp = _result[1].default;
         ng.bootstrap(document, [OdifApp.name]);
       });
 
@@ -110,7 +110,7 @@
 
     window.WebFontConfig = {
       google: {
-        families: ['Lato:300']
+        families: ['Ubuntu:300,400,600']
       }
     };
 
@@ -122,6 +122,7 @@
     var s = document.getElementsByTagName('script')[0];
     s.parentNode.insertBefore(wf, s);
   })();
+
 </script>
 
 </body>

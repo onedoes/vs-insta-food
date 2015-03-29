@@ -59,13 +59,16 @@
 
       <input type="range"
         class="odif-compare-ring__referee"
+        ng-disabled="compareActionCtrl.hasVoted"
         ng-model="compareActionCtrl.score">
 
       <!--
       --  The time decompte
       -->
-      <p class="odif-compare-decompte">You have <span>{{ compareActionCtrl.decompte }}</span>
-        seconds left to voter</p>
+      <p class="odif-compare-decompte">
+        <span ng-hide="compareActionCtrl.hasVoted">You have <span>{{ compareActionCtrl.decompte }}</span> seconds left to voter</span>
+        <span ng-show="compareActionCtrl.hasVoted">Please wait for the next comparison to be ready</span>
+      </p>
 
     </div>
 
@@ -76,6 +79,7 @@
   -->
   <button class="odif-compare-next-button"
     ng-disabled="compareActionCtrl.hasVoted"
-    ng-click="compareActionCtrl.nextComparison()">{{ compareActionCtrl.hasVoted ? 'WAIT...' : 'NEXT !'}}
+    ng-click="compareActionCtrl.nextComparison()">{{ compareActionCtrl.hasVoted
+    ? 'WAIT...' : 'NEXT !'}}
   </button>
 </div>

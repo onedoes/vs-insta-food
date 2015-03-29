@@ -43,16 +43,15 @@
                     'odif-trending-item--third',
                     'odif-trending-item'
                 ])"
-        ng-href="{{:: item.link }}"
-        ng-style="::{ backgroundImage: 'url(' + item.images.low_resolution.url + ')' }">
+        ng-href="{{ item.link }}"
+        ng-style="{ backgroundImage: 'url(' + item.images.low_resolution.url + ')' }">
 
         <!--
         -- The caption inside the item
         -->
-                <span class="odif-trending-item__caption">
-
-                    <i class="fa fa-spoon"></i>{{ item.score }}
-                </span>
+        <span class="odif-trending-item__caption">
+            <i class="fa fa-spoon"></i>{{ item.score }}
+        </span>
       </a>
     </article>
   </div>

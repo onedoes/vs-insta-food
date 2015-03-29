@@ -1,150 +1,158 @@
-"use strict";
+System.register(["services/constants"], function (_export) {
+  var MAX_COMPARE_ACION_TIME, MAX_COMPARE_SCORE, MEDIAS_REF, _slicedToArray, INITIAL_SCORE_VALUE;
 
-var _slicedToArray = function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { var _arr = []; for (var _iterator = arr[Symbol.iterator](), _step; !(_step = _iterator.next()).done;) { _arr.push(_step.value); if (i && _arr.length === i) break; } return _arr; } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } };
+  _export("default", CompareActionController);
 
-module.exports = CompareActionController;
-//
+  function CompareActionController($q, $scope, $state, imagesToCompareStorage, resolvedLeftImage, resolvedRightImage) {
+    this.hasVoted = false;
+    this.leftImage = resolvedLeftImage;
+    this.rightImage = resolvedRightImage;
+    this.decompte = MAX_COMPARE_ACION_TIME;
+    this.score = INITIAL_SCORE_VALUE;
 
-var _servicesConstants = require("services/constants");
+    this.nextComparison = nextComparison;
 
-var MAX_COMPARE_ACION_TIME = _servicesConstants.MAX_COMPARE_ACION_TIME;
-var MAX_COMPARE_SCORE = _servicesConstants.MAX_COMPARE_SCORE;
-var MEDIAS_REF = _servicesConstants.MEDIAS_REF;
+    ////
 
-var INITIAL_SCORE_VALUE = Math.floor(MAX_COMPARE_SCORE / 2);
+    function nextComparison() {
+      if (this.hasVoted) {
+        return;
+      }
 
-function CompareActionController($q, $scope, $state, imagesToCompareStorage, resolvedLeftImage, resolvedRightImage) {
-  this.hasVoted = false;
-  this.leftImage = resolvedLeftImage;
-  this.rightImage = resolvedRightImage;
-  this.decompte = MAX_COMPARE_ACION_TIME;
-  this.score = INITIAL_SCORE_VALUE;
+      this.hasVoted = true;
 
-  this.nextComparison = nextComparison;
+      saveScore([this.leftImage, this.rightImage], this.score);
 
-  ////
+      var _imagesToCompareStorage$nextPair = imagesToCompareStorage.nextPair();
 
-  function nextComparison() {
-    if (this.hasVoted) {
-      return;
+      var _imagesToCompareStorage$nextPair2 = _slicedToArray(_imagesToCompareStorage$nextPair, 2);
+
+      var leftId = _imagesToCompareStorage$nextPair2[0];
+      var rightId = _imagesToCompareStorage$nextPair2[1];
+
+      $state.go("compare.action", {
+        leftId: leftId, rightId: rightId
+      }, {
+        location: "replace"
+      });
     }
 
-    this.hasVoted = true;
+    function goToTrending() {
+      saveScore([this.leftImage, this.rightImage], this.score);
+      $state.go("trending");
+    }
 
-    saveScore([this.leftImage, this.rightImage], this.score);
+    function saveScore(_ref, level) {
+      var _ref2 = _slicedToArray(_ref, 2);
 
-    var _imagesToCompareStorage$nextPair = imagesToCompareStorage.nextPair();
+      var left = _ref2[0];
+      var right = _ref2[1];
 
-    var _imagesToCompareStorage$nextPair2 = _slicedToArray(_imagesToCompareStorage$nextPair, 2);
+      var _calculateLeftRightScore = calculateLeftRightScore(+level);
 
-    var leftId = _imagesToCompareStorage$nextPair2[0];
-    var rightId = _imagesToCompareStorage$nextPair2[1];
+      var _calculateLeftRightScore2 = _slicedToArray(_calculateLeftRightScore, 2);
 
-    $state.go("compare.action", {
-      leftId: leftId, rightId: rightId
-    }, {
-      location: "replace"
-    });
-  }
+      var leftScore = _calculateLeftRightScore2[0];
+      var rightScore = _calculateLeftRightScore2[1];
 
-  function goToTrending() {
-    saveScore([this.leftImage, this.rightImage], this.score);
-    $state.go("trending");
-  }
+      return $q.all([saveMediaAndScore(left, leftScore), saveMediaAndScore(right, rightScore)]);
+    }
 
-  function saveScore(_ref, level) {
-    var _ref2 = _slicedToArray(_ref, 2);
+    function calculateLeftRightScore(level) {
+      return [INITIAL_SCORE_VALUE - level, level - INITIAL_SCORE_VALUE];
+    }
 
-    var left = _ref2[0];
-    var right = _ref2[1];
+    function saveMediaAndScore(media, score) {
 
-    var _calculateLeftRightScore = calculateLeftRightScore(+level);
-
-    var _calculateLeftRightScore2 = _slicedToArray(_calculateLeftRightScore, 2);
-
-    var leftScore = _calculateLeftRightScore2[0];
-    var rightScore = _calculateLeftRightScore2[1];
-
-    return $q.all([saveMediaAndScore(left, leftScore), saveMediaAndScore(right, rightScore)]);
-  }
-
-  function calculateLeftRightScore(level) {
-    return [INITIAL_SCORE_VALUE - level, level - INITIAL_SCORE_VALUE];
-  }
-
-  function saveMediaAndScore(media, score) {
-
-    return $q.when(MEDIAS_REF.child(media.id)).then(function isExistingRef(ref) {
-      return $q(function (resolve, reject) {
-        ref.once("value", function (snapshot) {
-          snapshot.val() ? resolve(ref) : reject(ref);
+      return $q.when(MEDIAS_REF.child(media.id)).then(function isExistingRef(ref) {
+        return $q(function (resolve, reject) {
+          ref.once("value", function (snapshot) {
+            snapshot.val() ? resolve(ref) : reject(ref);
+          });
         });
+      }).then(function transactionOnScore(ref) {
+        ref.child("score").transaction(function (current_value) {
+          return (current_value || 0) + score;
+        });
+      })["catch"](function create(ref) {
+        ref.set(_.assign({}, media, { score: score }));
       });
-    }).then(function transactionOnScore(ref) {
-      ref.child("score").transaction(function (current_value) {
-        return (current_value || 0) + score;
+    }
+
+    ////
+
+    // TODO(douglasduteil): [SMELLY CODE] Clean this plz
+    var lastTime = undefined,
+        now = undefined;
+    var time = 0;
+    lastTime = window.performance.now();
+    (function _decrease() {
+      var _this = this;
+
+      if (this.hasVoted) {
+        return;
+      } else if (this.decompte > 0) {
+        window.requestAnimationFrame(_decrease.bind(this));
+      } else {
+        goToTrending.call(this);
+      }
+
+      now = window.performance.now();
+      time += Math.min(1, (now - lastTime) / 1000);
+      $scope.$evalAsync(function () {
+        return _this.decompte = Math.floor(MAX_COMPARE_ACION_TIME - time);
       });
-    })["catch"](function create(ref) {
-      ref.set(_.assign({}, media, { score: score }));
-    });
+      lastTime = now;
+    }).call(this);
   }
 
   ////
 
-  // TODO(douglasduteil): [SMELLY CODE] Clean this plz
-  var lastTime = undefined,
-      now = undefined;
-  var time = 0;
-  lastTime = window.performance.now();
-  (function _decrease() {
-    var _this = this;
-
-    if (this.decompte > 0) {
-      window.requestAnimationFrame(_decrease.bind(this));
-    } else {
-      goToTrending.call(this);
-    }
-
-    now = window.performance.now();
-    time += Math.min(1, (now - lastTime) / 1000);
-    $scope.$evalAsync(function () {
-      return _this.decompte = Math.floor(MAX_COMPARE_ACION_TIME - time);
-    });
-    lastTime = now;
-  }).call(this);
-}
-
-CompareActionController.nameAs = "compareActionCtrl";
-
-CompareActionController.resolve = {
-  resolvedLeftImage: function resolvedLeftImage($q, $stateParams, imagesToCompareStorage) {
-    return resolveOrReturnHome($q, imagesToCompareStorage.storage[$stateParams.leftId]);
-  },
-  _leftImageLoaded: function _leftImageLoaded($q, resolvedLeftImage) {
-    return $q(function (resolve, reject) {
-      var img = new Image();
-      img.onload = resolve;
-      img.onerror = reject;
-      img.src = resolvedLeftImage.images.low_resolution.url;
-    });
-  },
-  resolvedRightImage: function resolvedRightImage($q, $stateParams, imagesToCompareStorage) {
-    return resolveOrReturnHome($q, imagesToCompareStorage.storage[$stateParams.rightId]);
-  },
-  _rightImageLoaded: function _rightImageLoaded($q, resolvedRightImage) {
-    return $q(function (resolve, reject) {
-      var img = new Image();
-      img.onload = resolve;
-      img.onerror = reject;
-      img.src = resolvedRightImage.images.low_resolution.url;
+  function resolveOrReturnHome($q, val) {
+    return $q[!!val ? "when" : "reject"](val)["catch"](function () {
+      return $q.reject({ redirectTo: "trending" });
     });
   }
-};
+  return {
+    setters: [function (_servicesConstants) {
+      MAX_COMPARE_ACION_TIME = _servicesConstants.MAX_COMPARE_ACION_TIME;
+      MAX_COMPARE_SCORE = _servicesConstants.MAX_COMPARE_SCORE;
+      MEDIAS_REF = _servicesConstants.MEDIAS_REF;
+    }],
+    execute: function () {
+      "use strict";
 
-////
+      _slicedToArray = function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { var _arr = []; for (var _iterator = arr[Symbol.iterator](), _step; !(_step = _iterator.next()).done;) { _arr.push(_step.value); if (i && _arr.length === i) break; } return _arr; } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } };
 
-function resolveOrReturnHome($q, val) {
-  return $q[!!val ? "when" : "reject"](val)["catch"](function () {
-    return $q.reject({ redirectTo: "trending" });
-  });
-}
+      INITIAL_SCORE_VALUE = Math.floor(MAX_COMPARE_SCORE / 2);
+
+      CompareActionController.nameAs = "compareActionCtrl";
+
+      CompareActionController.resolve = {
+        resolvedLeftImage: function resolvedLeftImage($q, $stateParams, imagesToCompareStorage) {
+          return resolveOrReturnHome($q, imagesToCompareStorage.storage[$stateParams.leftId]);
+        },
+        _leftImageLoaded: function _leftImageLoaded($q, resolvedLeftImage) {
+          return $q(function (resolve, reject) {
+            var img = new Image();
+            img.onload = resolve;
+            img.onerror = reject;
+            img.src = resolvedLeftImage.images.low_resolution.url;
+          });
+        },
+        resolvedRightImage: function resolvedRightImage($q, $stateParams, imagesToCompareStorage) {
+          return resolveOrReturnHome($q, imagesToCompareStorage.storage[$stateParams.rightId]);
+        },
+        _rightImageLoaded: function _rightImageLoaded($q, resolvedRightImage) {
+          return $q(function (resolve, reject) {
+            var img = new Image();
+            img.onload = resolve;
+            img.onerror = reject;
+            img.src = resolvedRightImage.images.low_resolution.url;
+          });
+        }
+      };
+    }
+  };
+});
+//

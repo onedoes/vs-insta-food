@@ -1,21 +1,35 @@
-"use strict";
+System.register(["firebase"], function (_export) {
+  var Firebase, FIREBASE_BASE_URL, MEDIAS_REF, MAX_MEDIA_COUNT, DEBOUNCE_CACHE_POSTING_DURATION, MAX_COMPARE_ACION_TIME, MAX_COMPARE_SCORE;
+  return {
+    setters: [function (_firebase) {
+      Firebase = _firebase["default"];
+    }],
+    execute: function () {
+      "use strict";
 
-var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+      FIREBASE_BASE_URL = "https://onedoes-vs-instafood.firebaseio.com/";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
+      _export("FIREBASE_BASE_URL", FIREBASE_BASE_URL);
+
+      MEDIAS_REF = new Firebase("" + FIREBASE_BASE_URL + "/medias");
+
+      _export("MEDIAS_REF", MEDIAS_REF);
+
+      MAX_MEDIA_COUNT = 12;
+
+      _export("MAX_MEDIA_COUNT", MAX_MEDIA_COUNT);
+
+      DEBOUNCE_CACHE_POSTING_DURATION = 500;
+
+      _export("DEBOUNCE_CACHE_POSTING_DURATION", DEBOUNCE_CACHE_POSTING_DURATION);
+
+      MAX_COMPARE_ACION_TIME = 10;
+
+      _export("MAX_COMPARE_ACION_TIME", MAX_COMPARE_ACION_TIME);
+
+      MAX_COMPARE_SCORE = 100;
+
+      _export("MAX_COMPARE_SCORE", MAX_COMPARE_SCORE);
+    }
+  };
 });
-
-var Firebase = _interopRequire(require("firebase"));
-
-var FIREBASE_BASE_URL = "https://onedoes-vs-instafood.firebaseio.com/";
-exports.FIREBASE_BASE_URL = FIREBASE_BASE_URL;
-var MEDIAS_REF = new Firebase("" + FIREBASE_BASE_URL + "/medias");
-exports.MEDIAS_REF = MEDIAS_REF;
-var MAX_MEDIA_COUNT = 11;
-
-exports.MAX_MEDIA_COUNT = MAX_MEDIA_COUNT;
-var MAX_COMPARE_ACION_TIME = 10;
-exports.MAX_COMPARE_ACION_TIME = MAX_COMPARE_ACION_TIME;
-var MAX_COMPARE_SCORE = 100;
-exports.MAX_COMPARE_SCORE = MAX_COMPARE_SCORE;

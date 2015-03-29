@@ -1,38 +1,44 @@
-"use strict";
+System.register(["angular", "angular-ui-router", "routes/compare/compare.module", "routes/trending/trending.module"], function (_export) {
+  var angular, uiRouter, compareRouteModule, trendingRouteModule;
 
-var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+  ////
 
-var angular = _interopRequire(require("angular"));
+  function odifAppRoutesConfig($urlRouterProvider) {
+    $urlRouterProvider.otherwise("/");
+  }
 
-var uiRouter = _interopRequire(require("angular-ui-router"));
+  function odifAppRouteRun($rootScope, $state, $log) {
+    $rootScope.version = "1.0.0-beta";
 
-var compareRouteModule = _interopRequire(require("routes/compare/compare.module"));
+    $rootScope.$on("$stateChangeError", stateChangeErrorCallback);
 
-var trendingRouteModule = _interopRequire(require("routes/trending/trending.module"));
+    //
 
-////
+    function stateChangeErrorCallback(event, toState, toParams, fromState, fromParams, error) {
 
-module.exports = angular.module("OdifApp", [compareRouteModule.name, trendingRouteModule.name, "ui.router"]).run(odifAppRouteRun).config(odifAppRoutesConfig);
+      $log.error("Undefined error from \"" + (fromState && fromState.name) + "\" to \"" + (toState && toState.name) + "\"\nError : ", error);
 
-////
-
-function odifAppRoutesConfig($urlRouterProvider) {
-  $urlRouterProvider.otherwise("/");
-}
-
-function odifAppRouteRun($rootScope, $state, $log) {
-  $rootScope.version = "1.0.0-beta";
-
-  $rootScope.$on("$stateChangeError", stateChangeErrorCallback);
-
-  //
-
-  function stateChangeErrorCallback(event, toState, toParams, fromState, fromParams, error) {
-
-    $log.error("Undefined error from \"" + (fromState && fromState.name) + "\" to \"" + (toState && toState.name) + "\"\nError : ", error);
-
-    if (error && error.redirectTo) {
-      $state.go(error.redirectTo);
+      if (error && error.redirectTo) {
+        $state.go(error.redirectTo);
+      }
     }
   }
-}
+  return {
+    setters: [function (_angular) {
+      angular = _angular["default"];
+    }, function (_angularUiRouter) {
+      uiRouter = _angularUiRouter["default"];
+    }, function (_routesCompareCompareModule) {
+      compareRouteModule = _routesCompareCompareModule["default"];
+    }, function (_routesTrendingTrendingModule) {
+      trendingRouteModule = _routesTrendingTrendingModule["default"];
+    }],
+    execute: function () {
+      "use strict";
+
+      ////
+
+      _export("default", angular.module("OdifApp", [compareRouteModule.name, trendingRouteModule.name, "ui.router"]).run(odifAppRouteRun).config(odifAppRoutesConfig));
+    }
+  };
+});
