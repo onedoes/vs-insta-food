@@ -1,5 +1,5 @@
 System.register(["angular", "lodash", "services/constants"], function (_export) {
-  var angular, _, DEBOUNCE_CACHE_POSTING_DURATION, MEDIAS_REF, MAX_MEDIA_COUNT;
+  var angular, _, DEBOUNCE_CACHE_POSTING_DURATION, MEDIAS_REF, FIREBASE_CONNECTION_REF, MAX_MEDIA_COUNT;
 
   ////
 
@@ -9,6 +9,11 @@ System.register(["angular", "lodash", "services/constants"], function (_export) 
     // TODO(douglasduteil): use minimal empty space
     // Array.from({ length: 5 }, (_, id) => Object.create({ id: id }));
     this.items = [];
+
+    // Disconnection management
+    FIREBASE_CONNECTION_REF.on("value", function (snap) {
+      return Firebase[!!snap.val() ? "goOnline" : "goOffline"]();
+    });
 
     // Fresh
     MEDIAS_REF.orderByChild("score").on("value", _.debounce(_updateTrendingList, DEBOUNCE_CACHE_POSTING_DURATION), this);
@@ -49,6 +54,7 @@ System.register(["angular", "lodash", "services/constants"], function (_export) 
     }, function (_servicesConstants) {
       DEBOUNCE_CACHE_POSTING_DURATION = _servicesConstants.DEBOUNCE_CACHE_POSTING_DURATION;
       MEDIAS_REF = _servicesConstants.MEDIAS_REF;
+      FIREBASE_CONNECTION_REF = _servicesConstants.FIREBASE_CONNECTION_REF;
       MAX_MEDIA_COUNT = _servicesConstants.MAX_MEDIA_COUNT;
     }],
     execute: function () {

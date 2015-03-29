@@ -1,5 +1,5 @@
 System.register(["firebase"], function (_export) {
-  var Firebase, FIREBASE_BASE_URL, MEDIAS_REF, MAX_MEDIA_COUNT, DEBOUNCE_CACHE_POSTING_DURATION, MAX_COMPARE_ACION_TIME, MAX_COMPARE_SCORE;
+  var Firebase, FIREBASE_BASE_URL, MEDIAS_REF, FIREBASE_CONNECTION_REF, MAX_MEDIA_COUNT, DEBOUNCE_CACHE_POSTING_DURATION, MAX_COMPARE_ACION_TIME, MAX_COMPARE_SCORE;
   return {
     setters: [function (_firebase) {
       Firebase = _firebase["default"];
@@ -14,6 +14,10 @@ System.register(["firebase"], function (_export) {
       MEDIAS_REF = new Firebase("" + FIREBASE_BASE_URL + "/medias");
 
       _export("MEDIAS_REF", MEDIAS_REF);
+
+      FIREBASE_CONNECTION_REF = new Firebase("" + FIREBASE_BASE_URL + "/.info/connected");
+
+      _export("FIREBASE_CONNECTION_REF", FIREBASE_CONNECTION_REF);
 
       MAX_MEDIA_COUNT = 12;
 
