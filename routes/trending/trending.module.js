@@ -98,8 +98,8 @@ System.register(["angular", "angular-ui-router", "moment", "lodash", "services/c
 
       "use strict";
 
-      MOMENT_STARTING_HOUR = 20;
-      MOMENT_ENDING_HOUR = 22;
+      MOMENT_STARTING_HOUR = 21;
+      MOMENT_ENDING_HOUR = 23;
       MIDNIGHT_MOMENT_DATA = {
         hour: 0,
         minute: 0,
