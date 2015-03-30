@@ -11,9 +11,12 @@ System.register(["angular", "lodash", "services/constants"], function (_export) 
     this.items = [];
 
     // Disconnection management
-    FIREBASE_CONNECTION_REF.on("value", function (snap) {
-      return Firebase[!!snap.val() ? "goOnline" : "goOffline"]();
-    });
+    // TODO(douglasduteil): find a better way to deal with reconnection
+    // Case : Offline +> Online
+    // Case : Online  +> Offline +> Online
+    FIREBASE_CONNECTION_REF.on("value", _.debounce(function (snap) {
+      return snap.val() && Firebase.goOnline();
+    }, DEBOUNCE_CACHE_POSTING_DURATION));
 
     // Fresh
     MEDIAS_REF.orderByChild("score").on("value", _.debounce(_updateTrendingList, DEBOUNCE_CACHE_POSTING_DURATION), this);
@@ -33,6 +36,10 @@ System.register(["angular", "lodash", "services/constants"], function (_export) 
       $rootScope.$evalAsync(function () {
         return _this2.items = items;
       });
+
+      //
+
+      this.bestMediaToSend = items[0] && items[0].score > 400 && items[0];
 
       //
 

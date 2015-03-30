@@ -13,6 +13,7 @@ System.config({
     "css": "github:systemjs/plugin-css@0.1.7",
     "firebase": "github:firebase/firebase-bower@2.2.3",
     "lodash": "vendor/lodash.custom.min",
+    "moment": "github:moment/moment@2.9.0",
     "normalize.css": "github:necolas/normalize.css@3.0.2",
     "text": "github:systemjs/plugin-text@0.0.2",
     "github:angular-ui/ui-router@0.2.13": {

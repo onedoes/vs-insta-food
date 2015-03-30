@@ -133,6 +133,24 @@ figure {
   box-sizing: border-box;
 }
 
+/* line 23, src/scss/_placeholder.scss */
+.odif-trending-ticket-button, .odif-trending-action-button {
+  display: inline-block;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  background-image: none;
+  border: 0;
+  -wekbit-appereance: initial;
+  -moz-appearance: initial;
+}
+
 /* line 5, src/scss/_splashscreen.scss */
 .odif-splashscreen--intro, .odif-splashscreen--wodefd {
   background: no-repeat center bottom;
@@ -401,6 +419,16 @@ figure {
 }
 
 /* line 33, src/routes/trending/_trending.scss */
+.odif-trending-ticket-button {
+  width: 100%;
+  white-space: normal;
+  background-color: #f44034;
+  color: rgba(255, 255, 255, 0.84);
+  padding: 1rem 2rem;
+  font-size: 2rem;
+}
+
+/* line 49, src/routes/trending/_trending.scss */
 .odif-trending-list {
   display: -webkit-box;
   display: -webkit-flex;
@@ -414,7 +442,7 @@ figure {
   min-height: 10rem;
 }
 
-/* line 44, src/routes/trending/_trending.scss */
+/* line 60, src/routes/trending/_trending.scss */
 .odif-trending-item, .odif-trending-item--first, .odif-trending-item--second, .odif-trending-item--third {
   background: no-repeat center center;
   background-size: cover;
@@ -432,7 +460,7 @@ figure {
   text-decoration: none;
 }
 
-/* line 58, src/routes/trending/_trending.scss */
+/* line 74, src/routes/trending/_trending.scss */
 .odif-trending-item {
   -webkit-flex-basis: 33.333%;
       -ms-flex-preferred-size: 33.333%;
@@ -440,11 +468,11 @@ figure {
   max-width: 33.333%;
   height: 5rem;
 }
-/* line 65, src/routes/trending/_trending.scss */
+/* line 81, src/routes/trending/_trending.scss */
 .odif-trending-item--first {
   height: 20rem;
 }
-/* line 73, src/routes/trending/_trending.scss */
+/* line 89, src/routes/trending/_trending.scss */
 .odif-trending-item--second, .odif-trending-item--third {
   -webkit-flex-basis: 50%;
       -ms-flex-preferred-size: 50%;
@@ -454,12 +482,12 @@ figure {
   margin-bottom: 1rem;
 }
 @media only screen and (min-width: 768px) {
-  /* line 73, src/routes/trending/_trending.scss */
+  /* line 89, src/routes/trending/_trending.scss */
   .odif-trending-item--second, .odif-trending-item--third {
     margin-bottom: 0;
   }
 }
-/* line 90, src/routes/trending/_trending.scss */
+/* line 106, src/routes/trending/_trending.scss */
 .odif-trending-item__caption {
   display: -webkit-box;
   display: -webkit-flex;
@@ -481,17 +509,17 @@ figure {
   font-size: 1.5em;
   font-weight: 400;
 }
-/* line 107, src/routes/trending/_trending.scss */
+/* line 123, src/routes/trending/_trending.scss */
 .odif-trending-item__caption > .fa {
   margin-right: .5em;
 }
 
-/* line 113, src/routes/trending/_trending.scss */
+/* line 129, src/routes/trending/_trending.scss */
 .odif-trending-item, .odif-trending-item--first, .odif-trending-item--second, .odif-trending-item--third {
   font-size: .7rem;
 }
 @media only screen and (min-width: 768px) {
-  /* line 113, src/routes/trending/_trending.scss */
+  /* line 129, src/routes/trending/_trending.scss */
   .odif-trending-item, .odif-trending-item--first, .odif-trending-item--second, .odif-trending-item--third {
     -webkit-flex-basis: 33.333%;
         -ms-flex-preferred-size: 33.333%;
@@ -501,7 +529,7 @@ figure {
   }
 }
 @media only screen and (min-width: 970px) {
-  /* line 113, src/routes/trending/_trending.scss */
+  /* line 129, src/routes/trending/_trending.scss */
   .odif-trending-item, .odif-trending-item--first, .odif-trending-item--second, .odif-trending-item--third {
     -webkit-flex-basis: 25%;
         -ms-flex-preferred-size: 25%;
@@ -510,7 +538,7 @@ figure {
   }
 }
 @media only screen and (min-width: 1170px) {
-  /* line 113, src/routes/trending/_trending.scss */
+  /* line 129, src/routes/trending/_trending.scss */
   .odif-trending-item, .odif-trending-item--first, .odif-trending-item--second, .odif-trending-item--third {
     -webkit-flex-basis: 16.667%;
         -ms-flex-preferred-size: 16.667%;
@@ -519,22 +547,8 @@ figure {
   }
 }
 
-/* line 132, src/routes/trending/_trending.scss */
+/* line 148, src/routes/trending/_trending.scss */
 .odif-trending-action-button {
-  display: inline-block;
-  text-align: center;
-  white-space: nowrap;
-  vertical-align: middle;
-  -ms-touch-action: manipulation;
-  touch-action: manipulation;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  background-image: none;
-  border: 0;
-  -wekbit-appereance: initial;
-  -moz-appearance: initial;
   position: fixed;
   bottom: 1rem;
   right: .5rem;
@@ -551,21 +565,21 @@ figure {
   height: 56px;
 }
 @media only screen and (min-width: 768px) {
-  /* line 132, src/routes/trending/_trending.scss */
+  /* line 148, src/routes/trending/_trending.scss */
   .odif-trending-action-button {
     position: relative;
     bottom: -1.5rem;
     right: 1.5rem;
   }
 }
-/* line 158, src/routes/trending/_trending.scss */
+/* line 174, src/routes/trending/_trending.scss */
 .odif-trending-action-button > .fa {
   -webkit-transform: translate(0, -3px);
       -ms-transform: translate(0, -3px);
           transform: translate(0, -3px);
 }
 
-/* line 163, src/routes/trending/_trending.scss */
+/* line 181, src/routes/trending/_trending.scss */
 .odif-trending-footer {
   background-color: #221d3a;
   color: white;

@@ -18,6 +18,40 @@
     </div>
   </header>
 
+  <div class="container">
+
+    <!-- Switch over trendingCtrl.status -->
+    <div ng-show="trendingCtrl.status === trendingCtrl.TRENDING_STATUS.WAITING_TIME">
+      <p>
+        Remaining time before dinner preparation : <span>{{ trendingCtrl.remainingTime }}</span>
+      </p>
+    </div>
+    <!-- -->
+    <div ng-show="trendingCtrl.status === trendingCtrl.TRENDING_STATUS.MOMENT_TIME">
+      <button class="odif-trending-ticket-button"
+        ng-show="trendingCtrl.mediaStorage.bestMediaToSend"
+        ng-click="trendingCtrl.reserve(trendingCtrl.mediaStorage.bestMediaToSend)">
+        <i class="fa fa-ticket"></i>
+        Be the first to share this rating from the chaos !
+      </button>
+    </div>
+    <!-- -->
+    <div ng-show="trendingCtrl.status === trendingCtrl.TRENDING_STATUS.SPAMMING_TIME">
+      <form name="_spammingForm" novalidate
+        ng-init="_spammingData.comment = trendingCtrl.getDefaultMessage(trendingCtrl.mediaStorage.bestMediaToSend)">
+        <textarea name="comment" id="comment" cols="30" rows="10"
+          ng-model="_spammingData.comment"></textarea>
+        <button type="submit"
+          ng-disabled="_spammingForm.$invalid"
+          ng-click="trendingCtrl.sendConmment(_spammingForm, _spammingData)">
+          Send
+        </button>
+      </form>
+    </div>
+    <!-- /Switch over trendingCtrl.status -->
+
+
+  </div>
 
   <div class="container">
 

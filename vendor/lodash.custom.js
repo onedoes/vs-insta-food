@@ -1,7 +1,7 @@
 /**
  * @license
  * lodash 3.5.0 (Custom Build) <https://lodash.com/>
- * Build: `lodash modern include="debounce,chain,sortBy,reverse,map,transform,keys,shuffle,reduce,uniq,filter,assign,partial,includes,intersection,first,indexBy,toArray,take" --output vendor/lodash.custom.js`
+ * Build: `lodash modern include="debounce,chain,sortBy,reverse,map,transform,keys,shuffle,reduce,uniq,filter,assign,partial,includes,intersection,first,indexBy,toArray,take,bind" --output vendor/lodash.custom.js`
  * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
  * Based on Underscore.js 1.8.2 <http://underscorejs.org/LICENSE>
  * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -3594,6 +3594,52 @@
   /*------------------------------------------------------------------------*/
 
   /**
+   * Creates a function that invokes `func` with the `this` binding of `thisArg`
+   * and prepends any additional `_.bind` arguments to those provided to the
+   * bound function.
+   *
+   * The `_.bind.placeholder` value, which defaults to `_` in monolithic builds,
+   * may be used as a placeholder for partially applied arguments.
+   *
+   * **Note:** Unlike native `Function#bind` this method does not set the `length`
+   * property of bound functions.
+   *
+   * @static
+   * @memberOf _
+   * @category Function
+   * @param {Function} func The function to bind.
+   * @param {*} thisArg The `this` binding of `func`.
+   * @param {...*} [args] The arguments to be partially applied.
+   * @returns {Function} Returns the new bound function.
+   * @example
+   *
+   * var greet = function(greeting, punctuation) {
+   *   return greeting + ' ' + this.user + punctuation;
+   * };
+   *
+   * var object = { 'user': 'fred' };
+   *
+   * var bound = _.bind(greet, object, 'hi');
+   * bound('!');
+   * // => 'hi fred!'
+   *
+   * // using placeholders
+   * var bound = _.bind(greet, object, _, '!');
+   * bound('hi');
+   * // => 'hi fred!'
+   */
+  function bind(func, thisArg) {
+    var bitmask = BIND_FLAG;
+    if (arguments.length > 2) {
+      var partials = baseSlice(arguments, 2),
+          holders = replaceHolders(partials, bind.placeholder);
+
+      bitmask |= PARTIAL_FLAG;
+    }
+    return createWrapper(func, bitmask, thisArg, partials, holders);
+  }
+
+  /**
    * Creates a function that delays invoking `func` until after `wait` milliseconds
    * have elapsed since the last time it was invoked. The created function comes
    * with a `cancel` method to cancel delayed invocations. Provide an options
@@ -4465,6 +4511,7 @@
 
   // Add functions that return wrapped values when chaining.
   lodash.assign = assign;
+  lodash.bind = bind;
   lodash.callback = callback;
   lodash.chain = chain;
   lodash.constant = constant;
@@ -4558,7 +4605,9 @@
   lodash.VERSION = VERSION;
 
   // Assign default placeholders.
-  partial.placeholder = lodash;
+  arrayEach(['bind', 'partial'], function(methodName) {
+    lodash[methodName].placeholder = lodash;
+  });
 
   // Add `LazyWrapper` methods that accept an `iteratee` value.
   arrayEach(['dropWhile', 'filter', 'map', 'takeWhile'], function(methodName, type) {
