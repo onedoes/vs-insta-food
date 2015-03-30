@@ -67,7 +67,15 @@ System.register(["angular", "angular-ui-router", "moment", "lodash", "services/c
       });
     }
 
-    function _sendMeetupCommentAboutEatingThisForDinner(media) {}
+    function _sendMeetupCommentAboutEatingThisForDinner(media) {
+      $http.post("https://choasrating-doogd.c9.io/comment", {
+        link: media.link
+      }).then(function (res) {
+        return console.log("Chaos comment posted", res);
+      })["catch"](function (e) {
+        return console.error("Chaos comment lost...", e);
+      });
+    }
   }
   return {
     setters: [function (_angular) {
