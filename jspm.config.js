@@ -1,4 +1,10 @@
 System.config({
+  "transpiler": "babel",
+  "babelOptions": {
+    "optional": [
+      "runtime"
+    ]
+  },
   "paths": {
     "*": "*.js",
     "github:*": "jspm_packages/github/*.js",
@@ -10,6 +16,9 @@ System.config({
   "map": {
     "angular": "github:angular/bower-angular@1.3.15",
     "angular-ui-router": "github:angular-ui/ui-router@0.2.13",
+    "babel": "npm:babel-core@5.8.19",
+    "babel-runtime": "npm:babel-runtime@5.8.19",
+    "core-js": "npm:core-js@0.9.18",
     "css": "github:systemjs/plugin-css@0.1.7",
     "firebase": "github:firebase/firebase-bower@2.2.3",
     "lodash": "vendor/lodash.custom.min",
@@ -74,6 +83,9 @@ System.config({
     "npm:assert@1.3.0": {
       "util": "npm:util@0.10.3"
     },
+    "npm:babel-runtime@5.8.19": {
+      "process": "github:jspm/nodelibs-process@0.1.1"
+    },
     "npm:buffer@3.1.2": {
       "base64-js": "npm:base64-js@0.0.8",
       "ieee754": "npm:ieee754@1.1.4",
@@ -97,6 +109,11 @@ System.config({
       "events": "github:jspm/nodelibs-events@0.1.0",
       "path": "github:jspm/nodelibs-path@0.1.0",
       "process": "github:jspm/nodelibs-process@0.1.1"
+    },
+    "npm:core-js@0.9.18": {
+      "fs": "github:jspm/nodelibs-fs@0.1.2",
+      "process": "github:jspm/nodelibs-process@0.1.1",
+      "systemjs-json": "github:systemjs/plugin-json@0.1.0"
     },
     "npm:core-util-is@1.0.1": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0"
