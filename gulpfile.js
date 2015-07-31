@@ -30,7 +30,8 @@ var config = {
     '**/*.html',
     '!index.html',
     'icons/**/*',
-    'images/**/*'
+    'images/**/*',
+    'sw.js'
   ],
   svgFiles: 'common/assets/svg/*.svg',
 
@@ -119,6 +120,7 @@ gulp.task('watch', function () {
 gulp.task('es6', function () {
   return gulp.src([
     '**/!(*.spec).js',
+    '!sw.js',
     // Don't touch my critical js !
     // It will be added injected as it stands in the html
     '!critical.js'
