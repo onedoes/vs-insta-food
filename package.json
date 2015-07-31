@@ -5,6 +5,8 @@
   "main": false,
   "scripts": {
     "start": "gulp serve",
+    "deploy": "gulp deploy",
+    "postinstall": "npm run vendor:lodash",
     "vendor:lodash": "lodash modern include=debounce,chain,sortBy,reverse,map,transform,keys,shuffle,reduce,uniq,filter,assign,partial,includes,intersection,first,indexBy,toArray,take,bind --output vendor/lodash.custom.js"
   },
   "repository": {
