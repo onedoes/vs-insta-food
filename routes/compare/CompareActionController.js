@@ -1,7 +1,13 @@
-System.register(["services/constants"], function (_export) {
-  var MAX_COMPARE_ACION_TIME, MAX_COMPARE_SCORE, MEDIAS_REF, _slicedToArray, INITIAL_SCORE_VALUE;
+System.register(['services/constants'], function (_export) {
+  //
 
-  _export("default", CompareActionController);
+  'use strict';
+
+  var MAX_COMPARE_ACION_TIME, MAX_COMPARE_SCORE, MEDIAS_REF, INITIAL_SCORE_VALUE;
+
+  var _slicedToArray = (function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i['return']) _i['return'](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError('Invalid attempt to destructure non-iterable instance'); } }; })();
+
+  _export('default', CompareActionController);
 
   function CompareActionController($q, $scope, $state, imagesToCompareStorage, resolvedLeftImage, resolvedRightImage) {
     this.hasVoted = false;
@@ -30,16 +36,16 @@ System.register(["services/constants"], function (_export) {
       var leftId = _imagesToCompareStorage$nextPair2[0];
       var rightId = _imagesToCompareStorage$nextPair2[1];
 
-      $state.go("compare.action", {
+      $state.go('compare.action', {
         leftId: leftId, rightId: rightId
       }, {
-        location: "replace"
+        location: 'replace'
       });
     }
 
     function goToTrending() {
       saveScore([this.leftImage, this.rightImage], this.score);
-      $state.go("trending");
+      $state.go('trending');
     }
 
     function saveScore(_ref, level) {
@@ -66,15 +72,15 @@ System.register(["services/constants"], function (_export) {
 
       return $q.when(MEDIAS_REF.child(media.id)).then(function isExistingRef(ref) {
         return $q(function (resolve, reject) {
-          ref.once("value", function (snapshot) {
+          ref.once('value', function (snapshot) {
             snapshot.val() ? resolve(ref) : reject(ref);
           });
         });
       }).then(function transactionOnScore(ref) {
-        ref.child("score").transaction(function (current_value) {
+        ref.child('score').transaction(function (current_value) {
           return (current_value || 0) + score;
         });
-      })["catch"](function create(ref) {
+      })['catch'](function create(ref) {
         ref.set(_.assign({}, media, { score: score }));
       });
     }
@@ -109,8 +115,8 @@ System.register(["services/constants"], function (_export) {
   ////
 
   function resolveOrReturnHome($q, val) {
-    return $q[!!val ? "when" : "reject"](val)["catch"](function () {
-      return $q.reject({ redirectTo: "trending" });
+    return $q[!!val ? 'when' : 'reject'](val)['catch'](function () {
+      return $q.reject({ redirectTo: 'trending' });
     });
   }
   return {
@@ -120,13 +126,9 @@ System.register(["services/constants"], function (_export) {
       MEDIAS_REF = _servicesConstants.MEDIAS_REF;
     }],
     execute: function () {
-      "use strict";
-
-      _slicedToArray = function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { var _arr = []; for (var _iterator = arr[Symbol.iterator](), _step; !(_step = _iterator.next()).done;) { _arr.push(_step.value); if (i && _arr.length === i) break; } return _arr; } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } };
-
       INITIAL_SCORE_VALUE = Math.floor(MAX_COMPARE_SCORE / 2);
 
-      CompareActionController.nameAs = "compareActionCtrl";
+      CompareActionController.nameAs = 'compareActionCtrl';
 
       CompareActionController.resolve = {
         resolvedLeftImage: function resolvedLeftImage($q, $stateParams, imagesToCompareStorage) {
@@ -155,4 +157,3 @@ System.register(["services/constants"], function (_export) {
     }
   };
 });
-//

@@ -1,11 +1,15 @@
-System.register(["angular", "lodash", "services/MediaStorage.module", "services/constants"], function (_export) {
+System.register(['angular', 'lodash', 'services/MediaStorage.module', 'services/constants'], function (_export) {
+  //
+
+  'use strict';
+
   var angular, _, MediaStorageModule, MAX_MEDIA_COUNT, INSTAGRAM_TAG, INSTAGRAM_ENDPOINT, INSTAGRAM_CLIENT_ID, INSTAGRAM_LIMIT_COUNT, INSTAGRAM_URL, TRASH_TAGS;
 
   ////
 
   function ImagesToCompareStorage($http, mediaStorage) {
 
-    var next = "";
+    var next = '';
     var iteration = 0;
     this.pictures = [];
 
@@ -32,7 +36,7 @@ System.register(["angular", "lodash", "services/MediaStorage.module", "services/
     function resetWith(pictures) {
       this.currentPairIndex = 0;
 
-      this.storage = _.indexBy(pictures, "id");
+      this.storage = _.indexBy(pictures, 'id');
 
       var lastId = undefined;
       this.comparingPairs = _(this.storage).keys().shuffle().reduce(function (pairs, id) {
@@ -49,11 +53,11 @@ System.register(["angular", "lodash", "services/MediaStorage.module", "services/
     }
 
     function get50Pictures() {
-      var lastPictures = arguments[0] === undefined ? [] : arguments[0];
+      var lastPictures = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
 
       return getInstagramPhotos().then(function (newPictures) {
         ++iteration;
-        return _(lastPictures).concat(newPictures).uniq("id").value();
+        return _(lastPictures).concat(newPictures).uniq('id').value();
       });
     }
 
@@ -62,7 +66,7 @@ System.register(["angular", "lodash", "services/MediaStorage.module", "services/
 
       if (next.length) {
         // TODO(douglasduteil): Recursive promise call
-        url += "&min_tag_id=" + next;
+        url += '&min_tag_id=' + next;
       }
 
       return $http.jsonp(INSTAGRAM_URL).then(function (res) {
@@ -74,7 +78,7 @@ System.register(["angular", "lodash", "services/MediaStorage.module", "services/
           return !_.intersection(pic.tags, TRASH_TAGS).length;
         }).map(function (pic) {
           pic.date = new Date(parseInt(pic.created_time) * 1000);
-          pic.images.low_resolution.url = pic.images.low_resolution.url.replace("http://", "https://");
+          pic.images.low_resolution.url = pic.images.low_resolution.url.replace('http://', 'https://');
           return pic;
         }).value();
       });
@@ -82,29 +86,25 @@ System.register(["angular", "lodash", "services/MediaStorage.module", "services/
   }
   return {
     setters: [function (_angular) {
-      angular = _angular["default"];
+      angular = _angular['default'];
     }, function (_lodash) {
-      _ = _lodash["default"];
+      _ = _lodash['default'];
     }, function (_servicesMediaStorageModule) {
-      MediaStorageModule = _servicesMediaStorageModule["default"];
+      MediaStorageModule = _servicesMediaStorageModule['default'];
     }, function (_servicesConstants) {
       MAX_MEDIA_COUNT = _servicesConstants.MAX_MEDIA_COUNT;
     }],
     execute: function () {
-      //
-
-      "use strict";
-
-      _export("default", angular.module("odif.imagesToCompareStorage", [MediaStorageModule.name]).service("imagesToCompareStorage", ImagesToCompareStorage));
+      _export('default', angular.module('odif.imagesToCompareStorage', [MediaStorageModule.name]).service('imagesToCompareStorage', ImagesToCompareStorage));
 
       ////
 
-      INSTAGRAM_TAG = "foodporn";
-      INSTAGRAM_ENDPOINT = "tags/" + INSTAGRAM_TAG + "/media/recent";
-      INSTAGRAM_CLIENT_ID = "467ede5a6b9b48ae8e03f4e2582aeeb3";
+      INSTAGRAM_TAG = 'foodporn';
+      INSTAGRAM_ENDPOINT = 'tags/' + INSTAGRAM_TAG + '/media/recent';
+      INSTAGRAM_CLIENT_ID = '467ede5a6b9b48ae8e03f4e2582aeeb3';
       INSTAGRAM_LIMIT_COUNT = MAX_MEDIA_COUNT;
-      INSTAGRAM_URL = "https://api.instagram.com/v1/" + INSTAGRAM_ENDPOINT + "?client_id=" + INSTAGRAM_CLIENT_ID + "&count=" + INSTAGRAM_LIMIT_COUNT + "&callback=JSON_CALLBACK";
-      TRASH_TAGS = ["1000likes", "abs", "beautiful", "bug", "cute", "fashion", "fit", "fitness", "fitnessaddict", "followback", "followforfollow", "followme", "gym", "iloveher", "imissyou", "instacool", "instagood", "instalike", "instafollow", "like4like", "likeforlike", "likemyphoto", "lover", "mustfollow", "snapchat", "tags4tags", "tagsforlikes", "teamfollowback", "vscocam", "vscogram"];
+      INSTAGRAM_URL = 'https://api.instagram.com/v1/' + INSTAGRAM_ENDPOINT + '?client_id=' + INSTAGRAM_CLIENT_ID + '&count=' + INSTAGRAM_LIMIT_COUNT + '&callback=JSON_CALLBACK';
+      TRASH_TAGS = ['1000likes', 'abs', 'beautiful', 'bug', 'cute', 'fashion', 'fit', 'fitness', 'fitnessaddict', 'followback', 'followforfollow', 'followme', 'gym', 'iloveher', 'imissyou', 'instacool', 'instagood', 'instalike', 'instafollow', 'like4like', 'likeforlike', 'likemyphoto', 'lover', 'mustfollow', 'snapchat', 'tags4tags', 'tagsforlikes', 'teamfollowback', 'vscocam', 'vscogram'];
     }
   };
 });
